@@ -26,15 +26,13 @@ public class MyArrayList implements List<Object> {
 
     @Override
     public boolean isEmpty() {
-        if (sizeOfElements <= 0) {
-            return true;
-        } return false;
+        return sizeOfElements <= 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < defaultArray.length; i++){
-            if (defaultArray[i] == o) {
+        for (Object value : defaultArray) {
+            if (value == o) {
                 return true;
             }
         }
@@ -61,8 +59,7 @@ public class MyArrayList implements List<Object> {
     @Override
     public boolean add(Object myArrayList) {
         Object[] newArray = new Object[defaultArray.length + 1];
-
-        return false;
+        return true;
     }
 
     void add(int element) {
@@ -75,7 +72,7 @@ public class MyArrayList implements List<Object> {
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i<defaultArray.length; i++) {
+        for (int i = 0; i<= defaultArray.length; i++) {
             if (defaultArray[i] == o) {
                 Object[] newArray = new Object[defaultArray.length - 1];
                 if (i == 0) {
@@ -119,8 +116,7 @@ public class MyArrayList implements List<Object> {
 
     @Override
     public void clear() {
-        Object[] newArray = new Object[0];
-        defaultArray = newArray;
+        defaultArray = new Object[0];
         sizeOfElements = 0;
     }
 
@@ -157,7 +153,7 @@ public class MyArrayList implements List<Object> {
             return temp;
         }
         if (index == 0){
-            Object temp = defaultArray[index];
+            Object temp = defaultArray[0];
             Object[] newArray = new Object[defaultArray.length - 1];
             System.arraycopy(defaultArray, 0, newArray, 1, defaultArray.length-1);
             defaultArray = newArray;
@@ -183,7 +179,7 @@ public class MyArrayList implements List<Object> {
         for (int i = 0; i <defaultArray.length; i++){
             if (defaultArray[i] == o) {
                 temp = i;
-            } continue;
+            }
         } return temp;
     }
 
