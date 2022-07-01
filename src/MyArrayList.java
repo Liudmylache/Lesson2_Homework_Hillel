@@ -60,7 +60,6 @@ public class MyArrayList implements List<Object> {
         System.arraycopy(defaultArray, 0, newArray, 1, defaultArray.length);
         newArray[0] = myArrayList;
         defaultArray = newArray;
-        sizeOfElements++;
         return true;
     }
 
