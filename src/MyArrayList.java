@@ -4,14 +4,8 @@ public class MyArrayList implements List<Object> {
 
     boolean isInitialCapacity;
     public int sizeOfElements = 0;
-    public Object element;
     private static Object[] defaultArray;
 
-
-    public MyArrayList(int initialCapacity) {
-        this.defaultArray = new Object[initialCapacity];
-        isInitialCapacity = true;
-    }
 
     public MyArrayList() {
         this.defaultArray = new Object[0];
@@ -26,7 +20,7 @@ public class MyArrayList implements List<Object> {
 
     @Override
     public boolean isEmpty() {
-        return sizeOfElements <= 0;
+        return this.size() == 0;
     }
 
     @Override
@@ -45,20 +39,28 @@ public class MyArrayList implements List<Object> {
     }
 
 
-
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return Arrays.copyOf(defaultArray,sizeOfElements);
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        if (a.length < defaultArray.length)
+            return (T[]) Arrays.copyOf(defaultArray, defaultArray.length, a.getClass());
+        System.arraycopy(defaultArray, 0, a, 0, defaultArray.length);
+        if (a.length > defaultArray.length)
+            a[defaultArray.length] = null;
+        return a;
     }
 
     @Override
     public boolean add(Object myArrayList) {
         Object[] newArray = new Object[defaultArray.length + 1];
+        System.arraycopy(defaultArray, 0, newArray, 1, defaultArray.length);
+        newArray[0] = myArrayList;
+        defaultArray = newArray;
+        sizeOfElements++;
         return true;
     }
 
@@ -72,22 +74,20 @@ public class MyArrayList implements List<Object> {
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i<= defaultArray.length; i++) {
-            if (defaultArray[i] == o) {
+        for (int i = 0; i <= defaultArray.length-1; i++) {
+            if (defaultArray[i].equals(o)) {
                 Object[] newArray = new Object[defaultArray.length - 1];
-                if (i == 0) {
-                    System.arraycopy(defaultArray, 0, newArray, 1, defaultArray.length - 1);
-                }
-                else {
-                    System.arraycopy(defaultArray, 0, newArray, 0, i);
-                    System.arraycopy(defaultArray, i + 1, newArray, i, defaultArray.length - (i + 1));
-                }
+
+                System.arraycopy(defaultArray, 0, newArray, 0, i);
+                System.arraycopy(defaultArray, i + 1, newArray, i, defaultArray.length - (i + 1));
+
                 defaultArray = newArray;
                 sizeOfElements--;
                 return true;
-            } else return false;
-        } return true;
+            }
+        } return false;
     }
+
 
     @Override
     public boolean containsAll(Collection<?> c) {
@@ -113,6 +113,7 @@ public class MyArrayList implements List<Object> {
     public boolean retainAll(Collection<?> c) {
         return false;
     }
+
 
     @Override
     public void clear() {
@@ -192,6 +193,7 @@ public class MyArrayList implements List<Object> {
     public ListIterator<Object> listIterator(int index) {
         return null;
     }
+
 
     @Override
     public List<Object> subList(int fromIndex, int toIndex) {
